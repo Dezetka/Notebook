@@ -16,9 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.views.generic import TemplateView
+from notes.views import NotesListView,NotesDetailView
+from home import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('smart/',include("notes.urls"))
+    path('smart/',include("notes.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path('notes',NotesListView.as_view(),name='notes.list'),
+    path('notes/<int:pk>/',NotesDetailView.as_view()),
+    path('', HomeView.as_view()),
+    path('authorized/', AuthorizedViews.as_view()),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
+
+
+
